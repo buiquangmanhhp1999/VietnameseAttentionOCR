@@ -1,0 +1,57 @@
+Path: ./test/Thới Bình_8.jpg
+Text: Thới Đình
+Label: Thới Bình
+Confidence: 0.8028318285942078
+Time: 3.958820343017578
+1-N.E.D: 0.8888888888888888
+---------------------------------------------
+Path: ./test/Cái Khế, Ninh Kiều, Cần Thơ_2.jpg
+Text: Đinh Nhi Nhi Ngi Th
+Label: Cái Khế, Ninh Kiều, Cần Thơ
+Confidence: 0.3677269220352173
+Time: 0.1558370590209961
+1-N.E.D: 0.33333333333333337
+---------------------------------------------
+Path: ./test/An Hòa, Ninh Kiều, Cần Thơ_6.jpg
+Text: Ang Nin Ninh Th
+Label: An Hòa, Ninh Kiều, Cần Thơ
+Confidence: 0.4709587097167969
+Time: 0.18012666702270508
+1-N.E.D: 0.42307692307692313
+---------------------------------------------
+Path: ./test/An Hòa_4.jpg
+Text: An Hòa
+Label: An Hòa
+Confidence: 0.878167450428009
+Time: 0.15195322036743164
+1-N.E.D: 1.0
+---------------------------------------------
+Path: ./test/Phường Thới Bình_9.jpg
+Text: Phường Thói Bình
+Label: Phường Thới Bình
+Confidence: 0.8629450798034668
+Time: 0.18783283233642578
+1-N.E.D: 0.9375
+---------------------------------------------
+Path: ./test/Cái Khế_0.jpg
+Text: Cái Khế
+Label: Cái Khế
+Confidence: 0.8382035493850708
+Time: 0.15761828422546387
+1-N.E.D: 1.0
+---------------------------------------------
+Path: ./test/Phường An Hòa_5.jpg
+Text: Phường Th
+Label: Phường An Hòa
+Confidence: 0.6660141944885254
+Time: 0.1939702033996582
+1-N.E.D: 0.5384615384615384
+---------------------------------------------
+Path: ./test/Phường Cái Khế_1.jpg
+Text: Phường Cái Khể
+Label: Phường Cái Khế
+Confidence: 0.8529549837112427
+Time: 0.16666626930236816
+1-N.E.D: 0.9285714285714286
+---------------------------------------------
+Total 8 Images | Average NED: 0.7562290140415141

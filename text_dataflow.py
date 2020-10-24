@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import config as cfg
+import config_330 as cfg
 from tensorpack.dataflow import (
     DataFromList, MapData, MapDataComponent, RNGDataFlow, PrefetchData,
     MultiProcessMapData, MultiThreadMapData, TestDataSpeed, imgaug, BatchData
@@ -29,15 +29,12 @@ def largest_size_at_most(height, width, largest_side, max_scale):
     return new_height, new_width
 
 
-def aspect_preserving_resize(image, largest_side, max_scale=4.):
+def aspect_preserving_resize(image):
     """
     Resize image with perserved aspect and limited max scale.
     """
-    height, width = image.shape[:2]
-    new_height, new_width = largest_size_at_most(height, width, largest_side, max_scale)
-
-    new_height = max(new_height, cfg.stride)
-    new_width = max(new_width, cfg.stride)
+    new_width = cfg.image_size
+    new_height = cfg.height_img
     resized_image = cv2.resize(image, (int(new_width), int(new_height)))
 
     return resized_image
@@ -48,12 +45,12 @@ def padding_image(image, padding_size):
     Padding arbitrary-shaped text image to square for tensorflow batch training.
     """
     height, width = image.shape[:2]
-    padding_h = padding_size - height
+    padding_h = 0
+    padding_top = 0
+    padding_down = 0
     padding_w = padding_size - width
 
-    padding_top = np.random.randint(padding_h)
-    padding_left = np.random.randint(padding_w)
-    padding_down = padding_h - padding_top
+    padding_left = 0
     padding_right = padding_w - padding_left
 
     padding_img = cv2.copyMakeBorder(image, padding_top, padding_down, padding_left, padding_right,
@@ -122,7 +119,6 @@ class TextDataPreprocessor:
 
     def __call__(self, roidb):
         img, filename, label, mask, bbox, polygon = roidb['image'], roidb['filename'], roidb['label'], roidb['mask'], roidb['bbox'], roidb['polygon'],
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         # image = affine_transform(img, polygon)
         # img = img[bbox[0]:bbox[2], bbox[1]:bbox[3], :] if image.shape[0]<cfg.stride/2 or image.shape[1]<cfg.stride/2 else image
@@ -130,11 +126,11 @@ class TextDataPreprocessor:
         img = img[bbox[0]:bbox[2], bbox[1]:bbox[3], :] if img.shape[0] < cfg.stride / 2 or img.shape[
             1] < cfg.stride / 2 else img
 
-        largest_side = np.random.randint(cfg.crop_min_size, cfg.image_size)
-        img = aspect_preserving_resize(img, largest_side)
-
+        # largest_side = np.random.randint(cfg.crop_min_size, cfg.image_size)
+        img = aspect_preserving_resize(img)
+        print("Image shape: ", np.array(img).shape)
         img, crop_bbox = padding_image(img, cfg.image_size)
-
+        print("Image shape after padding: ", np.array(img))
         normalized_bbox = [coord / cfg.image_size for coord in crop_bbox]
 
         img = img.astype("float32") / 255.
@@ -204,17 +200,13 @@ def get_batch_train_dataflow(roidbs, batch_size):
         for roidb in roidb_batch:
             img, filename, label, mask, bbox, polygon = roidb['image'], roidb['filename'], roidb['label'], roidb['mask'], roidb['bbox'], \
                                                    roidb['polygon']
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
             # image = affine_transform(img, polygon)
             img = img[bbox[0]:bbox[2], bbox[1]:bbox[3], :] if img.shape[0] < cfg.stride/2 or img.shape[1] < cfg.stride/2 else img
             # img = img if image.shape[0] < cfg.stride / 2 or image.shape[1] < cfg.stride / 2 else image
 
-            largest_side = np.random.randint(cfg.crop_min_size, cfg.image_size)
-            img = aspect_preserving_resize(img, largest_side)
-
+            # largest_side = np.random.randint(cfg.crop_min_size, cfg.image_size)
+            img = aspect_preserving_resize(img)
             img, crop_bbox = padding_image(img, cfg.image_size)
-
             normalized_bbox = [coord / cfg.image_size for coord in crop_bbox]
 
             img = img.astype("float32") / 255.

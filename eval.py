@@ -9,7 +9,7 @@ import argparse
 import numpy as np
 from matplotlib import pyplot as plt
 
-import config as cfg
+import config_330 as cfg
 from common import polygons_to_mask
 
 from model.tensorpack_model import *

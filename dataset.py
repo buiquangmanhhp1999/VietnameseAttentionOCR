@@ -4,7 +4,7 @@ import tqdm
 
 from PIL import Image, ImageDraw, ImageFont
 
-import config as cfg
+import config_330 as cfg
 
 max_len = cfg.seq_len + 1
 base_dir = cfg.base_dir
@@ -87,7 +87,6 @@ class OcrDataset(Dataset):
                 continue
 
             img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             h, w = img.shape[:2]
 
             skip = False
@@ -118,7 +117,7 @@ class OcrDataset(Dataset):
 
 
 if __name__ == '__main__':
-    vn = OcrDataset(annotation_file='./Data/train_annotation.txt')
+    vn = OcrDataset(annotation_file='./Data/train_annotation_250.txt')
     vn.load_data()
 
     filenames = vn.filenames
@@ -133,5 +132,5 @@ if __name__ == '__main__':
     images, filenames, labels, masks, bboxes, points = shuffle(images, filenames, labels, masks, bboxes, points, random_state=0)
 
     dataset = {"images": images, "filenames": filenames, "labels": labels, "masks": masks, "bboxes": bboxes, "points": points}
-    np.save(cfg.dataset_name, dataset)
+    np.save('OcrDataset_250.npy', dataset)
 
